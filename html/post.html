@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" placeholder="Escribe el nombre" id="nombre">
+    <button onclick="llamar()">Enviar</button>
+    <button onclick="llamarGet()">EnviarGet</button>
+    <button onclick="llamarParam()">Enviar param</button>
+    <button onclick="llamarPost()">Enviar Post</button>
+
+    <script>
+        function llamar() {
+            let url = "http://localhost:8080/";
+            fetch(url)
+                .then(response => {
+                    let r = response
+                    console.log(r) // objeto Response
+                    let d = r.text()
+                    console.log(d) //promesa de datos
+                    return d        // devolvemos la promesa 
+                } )
+                .then(data => console.log(data) )
+        }
+
+        function llamarGet(){
+            let url = "http://localhost:8080/obtenerSaludo"
+            fetch(url)
+                .then(response => response.json())
+                .then(data => console.log(data))
+        }
+
+        function llamarParam(){
+            let nombre = document.getElementById("nombre").value
+            let url =  `http://localhost:8080/query?nombre=${nombre}`
+            fetch(url)
+                .then(response => response.text())
+                .then(data => console.log(data))
+        }
+
+        function llamarPost(){
+            let url = "http://localhost:8080/crearSaludo"
+            let nombre = document.getElementById("nombre").value
+            
+            fetch(url, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({contenido: nombre})
+            })
+            .then(response => response.text())
+            .then(datos => console.log(datos))
+        }
+
+
+
+    </script>
+</body>
+
+</html>
