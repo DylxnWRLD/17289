@@ -1,8 +1,6 @@
-FROM alpine
-EXPOSE 80
-RUN apk add nginx
-COPY ./ordinario-ftw /var/lib/nginx/html/
-COPY ./dylan.conf /etc/nginx/http.d/default.conf
-#permisos
-CMD ["nginx", "-g", "daemon off;"]
-#-g 'daemon off;'
+FROM dylan/spring-boot
+WORKDIR /app
+CMD ["java","-jar", "target/SaludarDatos-0.0.1-SNAPSHOT.jar"]
+COPY SaludarDatos/SaludarDatos/pom.xml .
+COPY SaludarDatos/SaludarDatos/src ./src
+RUN mvn package -DskipTests
